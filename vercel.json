@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/booking",
+      "dest": "/booking.html"
+    },
+    {
+      "src": "/login",
+      "dest": "/login.html"
+    },
+    {
+      "src": "/register",
+      "dest": "/register.html"
+    },
+    {
+      "src": "/user-dashboard",
+      "dest": "/user-dashboard.html"
+    },
+    {
+      "src": "/admin-dashboard",
+      "dest": "/admin-dashboard.html"
+    },
+    {
+      "src": "/admin-bookings",
+      "dest": "/admin-bookings.html"
+    },
+    {
+      "src": "/admin-pricing",
+      "dest": "/admin-pricing.html"
+    },
+    {
+      "src": "/admin-reports",
+      "dest": "/admin-reports.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}

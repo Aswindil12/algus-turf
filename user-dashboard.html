@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings - Algus Football Turf</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1><i class="fas fa-futbol"></i> Algus Football Turf</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="booking.html">Book Now</a></li>
+                    <li><a href="#" id="logoutBtn">Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="dashboard-section">
+        <div class="container">
+            <h2 class="section-title">My Bookings</h2>
+            
+            <div class="user-bookings">
+                <div class="table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Date</th>
+                                <th>Turf Type</th>
+                                <th>Time Slots</th>
+                                <th>Total</th>
+                                <th>Paid</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userBookingsTable">
+                            <tr>
+                                <td colspan="8" class="text-center">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Algus Football Turf. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Load user bookings
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            loadUserBookings(currentUser.email);
+        });
+
+        function loadUserBookings(userEmail) {
+            const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            const userBookings = bookings.filter(b => b.userEmail === userEmail);
+            
+            const tableBody = document.getElementById('userBookingsTable');
+            
+            if (userBookings.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="8" class="text-center">No bookings found</td></tr>';
+                return;
+            }
+            
+            tableBody.innerHTML = userBookings.map(booking => `
+                <tr>
+                    <td>${booking.id}</td>
+                    <td>${formatDate(booking.date)}</td>
+                    <td>${getTurfTypeName(booking.turfType)}</td>
+                    <td>${booking.slots.length} slots</td>
+                    <td>₹${booking.total}</td>
+                    <td>₹${booking.advance}</td>
+                    <td><span class="badge badge-${booking.status}">${booking.status}</span></td>
+                    <td>
+                        <button class="btn btn-secondary" onclick="viewBookingDetails('${booking.id}')">
+                            View
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getTurfTypeName(type) {
+            const names = {
+                'football-full': 'Football - Full Court',
+                'football-half': 'Football - Half Court',
+                'cricket': 'Cricket Turf'
+            };
+            return names[type] || type;
+        }
+
+        function formatDate(date) {
+            return new Date(date).toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+
+        function viewBookingDetails(bookingId) {
+            const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            const booking = bookings.find(b => b.id === bookingId);
+            
+            if (booking) {
+                alert(`
+Booking Details:
+━━━━━━━━━━━━━━━━━━━━
+Booking ID: ${booking.id}
+Date: ${formatDate(booking.date)}
+Turf: ${getTurfTypeName(booking.turfType)}
+Time Slots: ${booking.slots.join(', ')}
+Total Amount: ₹${booking.total}
+Paid: ₹${booking.advance}
+Remaining: ₹${booking.remaining}
+Status: ${booking.status}
+                `);
+            }
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
