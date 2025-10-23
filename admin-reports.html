@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports & Analytics - Algus Football Turf</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-futbol"></i> Algus Turf</h2>
+                <p>Admin Panel</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html" class="nav-item">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="admin-bookings.html" class="nav-item">
+                    <i class="fas fa-calendar-check"></i> Bookings
+                </a>
+                <a href="admin-pricing.html" class="nav-item">
+                    <i class="fas fa-tags"></i> Pricing
+                </a>
+                <a href="admin-reports.html" class="nav-item active">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </a>
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Reports & Analytics</h1>
+                <div class="admin-user">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Admin</span>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <!-- Date Range Filter -->
+                <div class="filters-section">
+                    <div class="filter-group">
+                        <label>From Date:</label>
+                        <input type="date" id="fromDate">
+                    </div>
+                    <div class="filter-group">
+                        <label>To Date:</label>
+                        <input type="date" id="toDate">
+                    </div>
+                    <button class="btn btn-primary" onclick="generateReport()">
+                        <i class="fas fa-chart-line"></i> Generate Report
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportReport()">
+                        <i class="fas fa-file-pdf"></i> Export PDF
+                    </button>
+                </div>
+
+                <!-- Summary Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalBookings">0</h3>
+                            <p>Total Bookings</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalRevenue">₹0</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="occupancyRate">0%</h3>
+                            <p>Occupancy Rate</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="popularSlot">-</h3>
+                            <p>Most Popular Slot</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-grid">
+                    <div class="dashboard-section">
+                        <h2>Revenue Trend</h2>
+                        <canvas id="revenueTrendChart"></canvas>
+                    </div>
+                    <div class="dashboard-section">
+                        <h2>Bookings by Turf Type</h2>
+                        <canvas id="turfTypeChart"></canvas>
+                    </div>
+                    <div class="dashboard-section">
+                        <h2>Peak Hours</h2>
+                        <canvas id="peakHoursChart"></canvas>
+                    </div>
+                    <div class="dashboard-section">
+                        <h2>Monthly Comparison</h2>
+                        <canvas id="monthlyChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Detailed Report Table -->
+                <div class="dashboard-section">
+                    <h2>Detailed Report</h2>
+                    <div class="table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Total Bookings</th>
+                                    <th>Football Full</th>
+                                    <th>Football Half</th>
+                                    <th>Cricket</th>
+                                    <th>Revenue</th>
+                                    <th>Occupancy</th>
+                                </tr>
+                            </thead>
+                            <tbody id="detailedReportTable">
+                                <tr>
+                                    <td colspan="7" class="text-center">Select date range and click Generate Report</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
